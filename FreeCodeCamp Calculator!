@@ -1,0 +1,165 @@
+var title = "FreeCodeCamp Calculator!";
+var display = 0;
+
+var numberList = [0,1,2,3,4,5,6,7,8,9];
+var listOfNumberIds = ["#zeroButton","#oneButton","#twoButton","#threeButton","#fourButton","#fiveButton","#sixButton","#sevenButton","#eightButton","#nineButton"];
+var listOfOperators = ['%','/','*','+','.']
+/*var zero = "0";
+var one = "1";
+var two = "2";
+var three = "3";
+var four = "4";
+var five = "5";
+var six = "6";
+var seven = "7";
+var eight = "8";
+var nine = "9";*/
+
+
+$('body').append('<div class=container-fluid>' +  title + '</div>');
+$('.container-fluid').addClass('text-center');
+$('.container-fluid').addClass('pagination-centered');
+$('.container-fluid').append('<p id="displayScreen">' + display +  '</p>');
+$('.container-fluid').append('<p class="row" id="firstRow"> </p>');
+$('#firstRow').append('<div class="btn-group" role="group" aria-label="...">  <button type="button" class="btn btn-default clickableButtons" id="acButton"> AC </button>  <button type="button" class="btn btn-default clickableButtons" id="ceButton"> CE </button>  <button type="button" class="btn btn-default clickableButtons" id="percentButton"> % </button> <button type="button" class="btn btn-default clickableButtons" id="divideButton"> / </button></div>');
+$('.container-fluid').append('<p class="row" id="secondRow"> </p>');
+$('#secondRow').append('<div class="btn-group" role="group" aria-label="...">  <button type="button" class="btn btn-default clickableButtons" id="sevenButton"> 7 </button>  <button type="button" class="btn btn-default clickableButtons" id="eightButton"> 8 </button>  <button type="button" class="btn btn-default clickableButtons" id="nineButton"> 9 </button> <button type="button" class="btn btn-default clickableButtons" id="multiplyButton"> * </button></div>');
+$('.container-fluid').append('<p class="row" id="thirdRow"> </p>');
+$('#thirdRow').append('<div class="btn-group" role="group" aria-label="...">  <button type="button" class="btn btn-default clickableButtons" id="fourButton"> 4 </button>  <button type="button" class="btn btn-default clickableButtons" id="fiveButton"> 5 </button>  <button type="button" class="btn btn-default clickableButtons" id="sixButton"> 6 </button> <button type="button" class="btn btn-default clickableButtons" id="minusButton"> - </button></div>');
+$('.container-fluid').append('<p class="row" id="fourthRow"> </p>');
+$('#fourthRow').append('<div class="btn-group" role="group" aria-label="...">  <button type="button" class="btn btn-default clickableButtons" id="oneButton"> 1 </button>  <button type="button" class="btn btn-default clickableButtons" id="twoButton"> 2 </button>  <button type="button" class="btn btn-default clickableButtons" id="threeButton"> 3 </button> <button type="button" class="btn btn-default clickableButtons" id="plusButton"> + </button></div>');
+$('.container-fluid').append('<p class="row" id="fifthRow"> </p>');
+$('#fifthRow').append('<div class="btn-group" role="group" aria-label="...">  <button type="button" class="btn btn-default clickableButtons" id="zeroButton"> 0 </button>  <button type="button" class="btn btn-default clickableButtons" id="decimalButton"> . </button>  <button type="button" class="btn btn-default clickableButtons" id="equalsButton"> = </button> <button type="button" class="btn btn-default clickableButtons" id="nothingButton">PC</button></div>');
+
+
+var listOfIds = ["#acButton","#ceButton","#percentButton","#divideButton","#sevenButton","#eightButton","#nineButton","#multiplyButton","#fourButton","#fiveButton","#sixButton","#minusButton","#oneButton","#twoButton","#threeButton","#plusButton","#zeroButton","#decimalButton","#equalsButton"];
+
+var operators = {
+    '%': function(a, b) { return parseFloat(a) * (1 + parseFloat(b)/100) },
+    '/': function(a, b) { return parseFloat(a) / parseFloat(b) },
+    '*': function(a,b) { return parseFloat(a) * parseFloat(b) },
+    '-': function(a,b) {return parseFloat(a) - parseFloat(b)},
+    '+': function(a,b) {return parseFloat(a) + parseFloat(b)},
+    '.': function(a) { var result =  "." + a
+                            return parseFloat(result)}
+    
+     // ...
+};
+
+//alert($('#nineButton').html());
+var screenNumber = "";
+var operationCounter = 1;
+var toBeCalculated = [];
+var correctOperator = "";
+var x = "";
+var y = "";
+var operator = "";
+
+$('.clickableButtons').click(function() {    
+    var buttonPressed = $(this).html();
+
+    if (buttonPressed === "CE" ) {
+     
+
+   x = "";
+   y = "";   
+   screenNumber = '';   
+     $('#displayScreen').text(screenNumber);
+  }
+  
+  else if (buttonPressed === $('#equalsButton').html()) {
+    var finalResult = operators[operator](x,y);
+    $('#displayScreen').text(finalResult);
+  }
+  else if(buttonPressed === $("multiplyButton").html()) {
+    operator = "*"       
+  }
+  
+  else if (buttonPressed === $("minusButton").html()) {
+    operator = "-"
+  }
+    else if (buttonPressed === $("plusButton").html()) {
+    operator = "+"
+  }
+      else if (buttonPressed === $("divideButton").html()) {
+    operator = "/"
+  }
+        else if (buttonPressed === $("decimalButton").html()) {
+    operator = "."
+  }
+  else if (buttonPressed === $("percentButton").html()) {
+    operator = "%"
+  }
+  else{
+    if (operator === "") {
+      x = x + buttonPressed;
+      $('#displayScreen').text(x);
+
+    }
+    else {
+      y = y + buttonPressed;
+            $('#displayScreen').text(y);
+    }
+  }
+  /*
+  
+  else {    
+    if (operationCounter === 2) {
+     toBeCalculated.push(screenNumber);
+      alert(toBeCalculated)
+      var firstNumber = toBeCalculated[0];
+      var secondNumber = toBeCalculated[1];
+  
+
+
+      alert(listOfOperators.indexOf(String(correctOperator)));
+      
+      alert(operators[String(correctOperator)](firstNumber,secondNumber));
+      
+
+    }
+    else {
+      toBeCalculated.push(screenNumber);
+      correctOperator = buttonPressed;
+      
+      operationCounter = operationCounter + 1;
+      screenNumber = "";
+      $('#displayScreen').text("");
+
+    }
+    //operators($("#" + this.id).html());
+    //$('#displayScreen').text(screenNumber);
+
+
+  }*/
+   
+        
+  // while button is a number id keep on storing button (they should be strings so i probably don't need to change type)
+  });
+
+
+/*var buttonnumber = ["#btn1", "#btn2", "#btn3", "#btn4", "#btn5"];
+
+$(buttonnumber.join()).click(function() {
+    var y = buttonnumber.indexOf("#" + this.id);
+});*/
+
+
+
+
+// for button in button list 
+// button.click($('#displayScreen'.text('zero')))
+// We can create a list of ids and a list of buttons when the button is clicked
+
+
+
+// alert(parseFloat("3.333") + parseFloat("3.333"))
+// alert(listOfIds.length);
+
+// Click as many numbers as you want, once you click an operator it stores into variable A
+  // Store operator into string representation of that variable [to use on operators['x']]
+  // Click as many numbers as you want, store into variable B
+  // Once you click '=' operators[operatorClicked](a,b) returns result to #displayScreen
+  
+
+// Make them all string representations of their numbers and then create a parse int at the relevant points in time
